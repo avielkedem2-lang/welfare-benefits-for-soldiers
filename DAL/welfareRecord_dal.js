@@ -18,7 +18,6 @@ async function insertBenefit(body) {
 async function findBenefit(soldierId) {
     try {
         console.log(soldierId);
-        
         return await coll.findOne({ soldierId: soldierId })
     } catch (error) {
         console.log(error);

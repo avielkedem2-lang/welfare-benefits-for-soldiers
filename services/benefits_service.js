@@ -45,3 +45,13 @@ export async function createBenefit(soldierId, body) {
 }
 
 
+
+
+export async function getBenefit(soldierId) {
+    if (isNaN(soldierId)) throw createError(400, "bad request")
+    const checkId = await welfareRecord.findBenefit(soldierId)
+    if (!checkId) throw createError(404, "not found")
+    return checkId
+}
+
+
