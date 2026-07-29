@@ -26,7 +26,22 @@ async function findBenefit(soldierId) {
 
 
 
+async function updateBenefit(soldierId, body) {
+    try {
+        return await coll.updateOne({soldierId: soldierId}, {
+            $set : {
+                ...body
+            }
+        })
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+
+
 export default {
     insertBenefit,
-    findBenefit
+    findBenefit,
+    updateBenefit
 }
