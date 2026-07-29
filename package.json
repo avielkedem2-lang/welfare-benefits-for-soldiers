@@ -4,7 +4,8 @@
   "description": "\"# welfare-benefits-for-soldiers\"",
   "main": "main.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node main.js",
+    "test": "node --test"
   },
   "repository": {
     "type": "git",
@@ -13,7 +14,7 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "type": "commonjs",
+  "type": "module",
   "bugs": {
     "url": "https://github.com/avielkedem2-lang/welfare-benefits-for-soldiers/issues"
   },
