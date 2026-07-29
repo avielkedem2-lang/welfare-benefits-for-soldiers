@@ -4,7 +4,7 @@
   "description": "\"# welfare-benefits-for-soldiers\"",
   "main": "main.js",
   "scripts": {
-    "start": "node main.js",
+    "start": "node --watch main.js",
     "test": "node --test"
   },
   "repository": {
