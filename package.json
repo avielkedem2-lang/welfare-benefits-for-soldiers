@@ -1,0 +1,28 @@
+{
+  "name": "welfare_benefits_for_soldiers",
+  "version": "1.0.0",
+  "description": "\"# welfare-benefits-for-soldiers\"",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/avielkedem2-lang/welfare-benefits-for-soldiers.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/avielkedem2-lang/welfare-benefits-for-soldiers/issues"
+  },
+  "homepage": "https://github.com/avielkedem2-lang/welfare-benefits-for-soldiers#readme",
+  "dependencies": {
+    "@supabase/supabase-js": "^2.111.0",
+    "dotenv": "^17.4.2",
+    "express": "^5.2.1",
+    "mongodb": "^7.5.0",
+    "zod": "^4.4.3"
+  }
+}
