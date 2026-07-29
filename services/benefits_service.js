@@ -6,6 +6,19 @@ import createError from "./createError.js"
 
 
 
+const giftCardVal = z.object({
+    cardProvider: z.string(),
+    monthlyValue: z.number(),
+    validMerchants: z.array()
+})
+
+const diningHallVal = z.object({
+    baseId: z.number(),
+    kosherLevel: z.string(),
+    mealTimes: z.array()
+})
+
+
 const bodyVal = z.object({
     unit: z.string(),
     benefitType: z.enum(["giftCard", "diningHall"]),
@@ -37,6 +50,12 @@ function createNewBody(body){
 export async function createBenefit(soldierId, body) {
     body.soldierId = soldierId
     if (bodyVal.safeParse(body).success === false) throw createError(400, "bad request")
+    if (body.benefitType == "giftCard") {
+        if (giftCardVal.safeParse(body.details).success === false) throw createError(400, "bad request")
+    }
+    else if (body.benefitType == "diningHall"){
+        if (diningHallVal.safeParse(body.details).success === false) throw createError(400, "bad request")
+    }
     const checkId = await welfareRecord.findBenefit(soldierId)
     if (checkId) throw createError(409, "The benefit already exists")
     const newBody = createNewBody(body)
