@@ -15,9 +15,11 @@ async function insertBenefit(body) {
 }
 
 
-async function findBenefit(solderId) {
+async function findBenefit(soldierId) {
     try {
-        return await coll.findOne({ solderId: solderId })
+        console.log(soldierId);
+        
+        return await coll.findOne({ soldierId: soldierId })
     } catch (error) {
         console.log(error);
     }

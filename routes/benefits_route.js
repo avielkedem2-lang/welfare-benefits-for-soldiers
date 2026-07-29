@@ -2,17 +2,11 @@ import express from "express"
 import { createBenefit } from "../services/benefits_service.js"
 
 
-const router = express.Router()
-
-export default router;
-
-
+const router = express.Router();
 
 router.post("/:soldierId/benefits", async (req, res) => {
     try {
         const soldierId = req.params.soldierId
-        console.log(soldierId);
-        
         const body = req.body
         const benefit = await createBenefit(+soldierId, body)
         res.status(201).json(benefit)
@@ -23,3 +17,7 @@ router.post("/:soldierId/benefits", async (req, res) => {
         }
     }
 })
+
+
+
+export default router;
