@@ -9,13 +9,13 @@ import createError from "./createError.js"
 const giftCardVal = z.object({
     cardProvider: z.string(),
     monthlyValue: z.number(),
-    validMerchants: z.array()
+    validMerchants: z.array(z.string())
 })
 
 const diningHallVal = z.object({
     baseId: z.number(),
     kosherLevel: z.string(),
-    mealTimes: z.array()
+    mealTimes: z.array(z.string())
 })
 
 
@@ -63,7 +63,7 @@ function createNewBody(body){
 function updateBody(newBody, oldBody){
     // console.log(oldBody.history[0]);
     
-    oldBody.history[oldBody.history.length -1].endDate = newBody.decisionDate
+    oldBody.history[oldBody.history.length -1].endDate = newBody.decisionDate || new Date()
     oldBody.currentBenefitType = newBody.benefitType
     oldBody.history.push({
             startDate: newBody.decisionDate,
