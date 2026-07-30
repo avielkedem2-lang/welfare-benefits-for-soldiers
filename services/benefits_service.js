@@ -116,13 +116,15 @@ export async function changeBenefit(soldierId, body) {
         if (giftCardVal.safeParse(body.details).success === false) throw createError(400, "bad request")
     }
     else if (body.benefitType == "diningHall"){
+        console.log(diningHallVal.safeParse(body.details));
+        
         if (diningHallVal.safeParse(body.details).success === false) throw createError(400, "bad request")
     }
     const oldBody = await welfareRecord.findBenefit(soldierId)
     if (!oldBody) throw createError(404, "Not found")
     const newBody = updateBody(body, oldBody)
     await welfareRecord.updateBenefit(soldierId, newBody)
-    return {reverted: true, reason: "The benefit update successfully"}
+    return await getBenefit(soldierId)
 }
 
 

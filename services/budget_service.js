@@ -29,6 +29,17 @@ const checkQuery = z.object({
 })
 
 
+
+function monthVal(body){
+    if (!body.month[5] === ":" || !body.month[5] === "-" || !body.month[5] === "/") throw createError(400, "bad request")
+    const num = body.month.slice(0,5)
+    if (isNaN(num)) return false
+    const num1 = body.month.slice(6)
+    if (num.length > 2 || isNaN(num ))return false
+}
+
+
+
 export async function createBudget(body) {
     if (checkBody.safeParse(body).success === false) throw createError(400, "bad request")
     console.log(body);
