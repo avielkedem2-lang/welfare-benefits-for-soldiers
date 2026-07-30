@@ -91,19 +91,43 @@ export async function getAllByQuery(query) {
     const allBudget = await budgetDal.selectAllBudget()
     if (query.unit) {
         const allUnits = allBudget.data.filter((b) => { return b.unit === query.unit})
-        listAllQuery.allUnits = allUnits
+        const len = allUnits.length
+        for (let i = 0; i< len; i++){
+            const allBudgetId = await getSpendById(allUnits[i].id)
+            const spentAmount = allBudgetId.reduce((sum, b) => { return sum + b.amount }, 0)
+            const remainingAmount = allUnits[i].allocatedAmount - spentAmount
+            allUnits[i].spentAmount = spentAmount
+            allUnits[i].remainingAmount = remainingAmount
+            listAllQuery.allUnits = allUnits
+        }
         
     }
     if (query.month){
         const allMonth = allBudget.data.filter((b) => { return b.month === query.month})
-        listAllQuery.allMonth = allMonth
+        const len = allMonth.length
+        for (let i = 0; i< len; i++){
+            const allBudgetId = await getSpendById(allMonth[i].id)
+            const spentAmount = allBudgetId.reduce((sum, b) => { return sum + b.amount }, 0)
+            const remainingAmount = allMonth[i].allocatedAmount - spentAmount
+            allMonth[i].spentAmount = spentAmount
+            allMonth[i].remainingAmount = remainingAmount
+            listAllQuery.allMonth = allMonth
+        }
     }
     
     if (query.benefitType) {
         const allBenefitType = allBudget.data.filter((b) => { return b.benefitType === query.benefitType})
-        listAllQuery.allBenefitType = allBenefitType
+        const len = allBenefitType.length
+        for (let i = 0; i< len; i++){
+            const allBudgetId = await getSpendById(allBenefitType[i].id)
+            const spentAmount = allBudgetId.reduce((sum, b) => { return sum + b.amount }, 0)
+            const remainingAmount = allBenefitType[i].allocatedAmount - spentAmount
+            allBenefitType[i].spentAmount = spentAmount
+            allBenefitType[i].remainingAmount = remainingAmount
+            listAllQuery.allBenefitType = allBenefitType
+        }
     }
-    console.log(listAllQuery);
+    // console.log(listAllQuery);
     
     return listAllQuery
 

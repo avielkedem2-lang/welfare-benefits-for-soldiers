@@ -28,6 +28,8 @@ router.post("/", async (req, res) => {
 router.get("/", async (req, res) => {
     try {
         const listQuery = {}
+        console.log(req.query);
+        
         if (req.query.unit){
             listQuery.unit = req.query.unit
         }
