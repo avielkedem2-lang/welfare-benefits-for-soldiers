@@ -1,5 +1,5 @@
 import express from "express"
-import { createBudget, createBudgetSpend , getSpendById} from "../services/budget_service.js"
+import { createBudget, createBudgetSpend , getAllByQuery, getSpendById} from "../services/budget_service.js"
 
 
 const router = express.Router()
@@ -18,6 +18,35 @@ router.post("/", async (req, res) => {
         }
     }
 })
+
+
+
+
+
+
+
+router.get("/", async (req, res) => {
+    try {
+        const listQuery = {}
+        if (req.query.unit){
+            listQuery.unit = req.query.unit
+        }
+        if (req.query.month){
+            listQuery.month = req.query.month
+        }
+        if (req.query.benefitType){
+            listQuery.benefitType = req.query.benefitType
+        }
+        const listAllQuery = await getAllByQuery(listQuery)
+        res.status(200).json([listAllQuery])
+    } catch (err) {
+        console.log(err); //זה בדיקה בשבילי
+        if (err.status) {
+            res.status(err.status).json(err.message)
+        }
+    }
+})
+
 
 
 

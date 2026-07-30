@@ -21,6 +21,14 @@ const checkBodySpend = z.object({
 })
 
 
+
+const checkQuery = z.object({
+    unit: z.string().optional(),
+    benefitType: z.enum(["giftCard", "diningHall"]).optional(),
+    month: z.string().optional(),
+})
+
+
 export async function createBudget(body) {
     if (checkBody.safeParse(body).success === false) throw createError(400, "bad request")
     console.log(body);
@@ -35,7 +43,7 @@ export async function createBudget(body) {
     }
     const budget = await budgetDal.insertBudget(body)
     if (budget.error) return console.log(budget.error);
-    return {id: allBudget.length + 1, ...body}
+    return { id: allBudget.length + 1, ...body }
 }
 
 
@@ -48,9 +56,9 @@ export async function getSpendById(id) {
     const checkId = await budgetDal.selectById(id)
     // console.log(checkId.data);
     if (checkId.length === 0) throw createError(404, "not found")
-    
+
     const allBudgetSpend = await budgetDal.selectAllSpendBudget()
-    const filterBudget = allBudgetSpend.data.filter((b) => {return b.budgetId === id})
+    const filterBudget = allBudgetSpend.data.filter((b) => { return b.budgetId === id })
     return filterBudget
 }
 
@@ -64,12 +72,44 @@ export async function createBudgetSpend(id, body) {
     body.budgetId = id
     if (checkBodySpend.safeParse(body).success === false) throw createError(400, "bad request")
     const allBudget = await getSpendById(id)
-    const allAmount = allBudget.reduce((sum, b) => {return sum + b.amount}, 0)
-    console.log("ggggg");
-    
+    const allAmount = allBudget.reduce((sum, b) => { return sum + b.amount }, 0)
     const budget = await budgetDal.selectById(id)
-    if (allAmount + body.amount > budget[0].allocatedAmount) return {error: "There is not enough money", remainingAmount:budget[0].allocatedAmount - allAmount}
+    if (allAmount + body.amount > budget[0].allocatedAmount) return { error: "There is not enough money", remainingAmount: budget[0].allocatedAmount - allAmount }
     await budgetDal.insertBudgetSpend(body)
     const allBudgetSpend = await budgetDal.selectAllSpendBudget()
-    return {id : allBudgetSpend.data.length + 1, ...body}
+    return { id: allBudgetSpend.data.length + 1, ...body }
 }
+
+
+
+
+
+
+export async function getAllByQuery(query) {
+    if (checkQuery.safeParse(query).success === false) throw createError(400, "bad request")
+    const listAllQuery = {}
+    const allBudget = await budgetDal.selectAllBudget()
+    if (query.unit) {
+        const allUnits = allBudget.data.filter((b) => { return b.unit === query.unit})
+        listAllQuery.allUnits = allUnits
+        
+    }
+    if (query.month){
+        const allMonth = allBudget.data.filter((b) => { return b.month === query.month})
+        listAllQuery.allMonth = allMonth
+    }
+    
+    if (query.benefitType) {
+        const allBenefitType = allBudget.data.filter((b) => { return b.benefitType === query.benefitType})
+        listAllQuery.allBenefitType = allBenefitType
+    }
+    console.log(listAllQuery);
+    
+    return listAllQuery
+
+}
+
+
+
+
+
