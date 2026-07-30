@@ -8,17 +8,36 @@ async function insertBudget(body) {
 
 
 
-async function selectAll() {
+async function selectAllBudget() {
     return await client.from("budget_allocation").select()
 }
 
 
+async function selectById(id) {
+    const res = await client.from("budget_allocation").select().eq("id", id)
+    // console.log(res);
+    return res.data
+    
+}
 
+
+async function insertBudgetSpend(body) {
+    body.createdAt = new Date()
+    return await client.from("spend_transaction").insert(body)
+}
+
+
+async function selectAllSpendBudget() {
+    return await client.from("spend_transaction").select()
+}
 
 
 
 
 export default {
     insertBudget,
-    selectAll
+    selectAllBudget,
+    selectAllSpendBudget,
+    insertBudgetSpend,
+    selectById
 }
